@@ -1,0 +1,26 @@
+# exercise3.txt
+
+# 1. requirements.txt
+requests==2.28.1
+
+# 2. weather.py
+import requests
+
+def get_weather():
+    print("Fetching weather data...")
+    # This would normally call an API
+    print("Weather data retrieved successfully!")
+
+if __name__ == "__main__":
+    get_weather()
+
+# 3. Docker build and run commands:
+# Build the Docker image
+docker build -t weather-app .
+
+# Run the Docker container
+docker run weather-app
+
+# 4. Output observed when running the container:
+Fetching weather data...
+Weather data retrieved successfully!

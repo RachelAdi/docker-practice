@@ -1,0 +1,24 @@
+--- app.py ---
+import os
+
+name = os.environ.get("NAME", "World")
+greeting = os.environ.get("GREETING", "Hello")
+
+print(f"{greeting}, {name}!")
+
+--- Dockerfile ---
+FROM python:3.9-alpine
+
+WORKDIR /app
+
+COPY app.py .
+
+ENV NAME=Rachel
+ENV GREETING=Hello
+
+CMD ["python", "app.py"]
+
+--- Commands ---
+docker build -t greeting-app .
+docker run greeting-app
+docker run -e NAME=John -e GREETING=Hi greeting-app

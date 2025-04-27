@@ -1,0 +1,44 @@
+--- Dockerfile ---
+FROM python:3.9-alpine
+
+WORKDIR /app
+
+COPY counter.py .
+
+CMD ["python", "counter.py"]
+
+--- counter.py ---
+import os
+from datetime import datetime
+
+data_dir = "/app/data"
+os.makedirs(data_dir, exist_ok=True)
+
+counter_file = os.path.join(data_dir, "counter.txt")
+
+if os.path.exists(counter_file):
+    with open(counter_file, "r") as f:
+        lines = f.readlines()
+        if lines:
+            count = int(lines[0].strip())
+        else:
+            count = 0
+else:
+    count = 0
+
+count += 1
+
+with open(counter_file, "w") as f:
+    f.write(f"{count}\n")
+    f.write(f"Last run: {datetime.now()}\n")
+
+print(f"This container has been run {count} time(s).")
+This container has been run 2 time(s).
+Last run at: 2025-04-27 03:21:10.202607print(f"Last run at: {datetime.now()}")
+
+--- Docker run command ---
+docker run -v $(pwd)/data:/app/data counter-app
+
+--- Contents of counter.txt after several runs ---
+This container has been run 2 time(s).
+Last run at: 2025-04-27 03:21:10.202607

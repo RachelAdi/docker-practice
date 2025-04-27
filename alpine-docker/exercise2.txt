@@ -1,0 +1,12 @@
+Output of docker images:
+alpine-docker     latest    7a95f88cef7b   About a minute ago   49.2MB
+hello-docker      latest    c1fda9df46e3   13 minutes ago       999MB
+< docker images | grep docker>
+
+Explanation of why alpine-docker is smaller:
+Alpine images are smaller because they use a minimal Linux distribution, which means they contain fewer packages and dependencies.
+
+Advantages and Disadvantages of using Alpine images:
+- Advantage: Smaller size, faster to download and deploy.
+- Disadvantage: Requires adding additional packages if the application needs them.
+

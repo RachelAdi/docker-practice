@@ -1,0 +1,43 @@
+Multi-stage Dockerfile:
+
+# syntax=docker/dockerfile:1
+FROM python:3.9 AS builder
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+COPY app.py .
+
+# Final lightweight image
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY --from=builder /root/.local /root/.local
+COPY --from=builder /app/app.py .
+
+ENV PATH=/root/.local/bin:$PATH
+
+RUN mkdir -p output
+
+CMD ["python", "app.py"]
+
+---
+
+Build and Run Commands:
+
+# Build the multi-stage app
+docker build -t multi-stage-app .
+
+# Run the multi-stage app
+docker run multi-stage-app
+
+---
+
+Size Comparison:
+
+Single-stage image size:  1.16GB
+Multi-stage image size: 217MB
+
